@@ -30,9 +30,17 @@
                             </div>
                         </div>
                         <div class="col-sm-2 text-center align-content-center justify-content-center align-items-center">
-                            <div class="btn-group " role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-secondary">Desc</button>
-                                <button type="button" class="btn btn-secondary">Asc</button>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                  Desc
+                                </label>
+                              </div>
+                              <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                <label class="form-check-label" for="exampleRadios2">
+                                  Asc
+                                </label>
                               </div>
                         </div>
                         <div class="col-sm-2">
@@ -43,8 +51,47 @@
                 </form>
 
                 <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table">
+                    <div class="table-responsive" id="mydatatable-container">
+                        <table class="records_list table table-striped table-bordered table-hover" id="mydatatable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Email</th>
+                                    <th>Primer Nombre</th>
+                                    <th>Segundo Nombre</th>
+                                    <th>Avatar</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
+                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
+                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
+                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach ($data as $user)
+                              <tr>
+                                <td class=" text-center">{{ $user['id']  }}</td>
+                                <td class="">{{ $user['email']  }}</td>
+                                <td class="">{{ $user['first_name']  }}</td>
+                                <td class="">{{ $user['last_name']  }}</td>
+                                <td class="align-content-center justify-content-center">
+                                    <img src="https://randomuser.me/api/portraits/men/81.jpg" alt="" class="img-thumbnail rounded-circle">
+                                </td>
+                              </tr>
+                              @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                    {{-- <div class="col-sm-12">
+                       <table class="table">
                             <thead class="thead-dark">
                               <tr>
                                 <th scope="col">Id</th>
@@ -69,7 +116,7 @@
                               </tr>
                               @endforeach
                             </tbody>
-                          </table>
+                          </table>  --}}
                           {{-- {{ $data->links() }} --}}
                           {{-- <nav aria-label="...">
                             <ul class="pagination justify-content-center">
@@ -95,6 +142,44 @@
             </div>
 
         </div>
+        <style>
+            #mydatatable tfoot input{
+                width: 100% !important;
+            }
+            #mydatatable tfoot {
+                display: table-header-group !important;
+            }
+            </style>
 
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $('#mydatatable tfoot th').each( function () {
+                    var title = $(this).text();
+                    $(this).html( '<input type="text" placeholder="Filtrar.." />' );
+                } );
+
+                var table = $('#mydatatable').DataTable({
+                    "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
+                    "responsive": false,
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                    },
+                    "order": [[ 0, "desc" ]],
+                    "initComplete": function () {
+                        this.api().columns().every( function () {
+                            var that = this;
+
+                            $( 'input', this.footer() ).on( 'keyup change', function () {
+                                if ( that.search() !== this.value ) {
+                                    that
+                                        .search( this.value )
+                                        .draw();
+                                    }
+                            });
+                        })
+                    }
+                });
+            });
+            </script>
 </body>
 @extends('layout/footer');
