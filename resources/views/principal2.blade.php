@@ -13,8 +13,7 @@
                             <span>usuario</span>
                         </div>
                         <div class="card-footer">
-                            <span>PRUEBA ITUS</span>
-                            <p> <a href="{{ route('paginado') }}" rel="noopener noreferrer">PAGINADO DE REGISTROS</a>  </p>
+                            <p> <a href="{{ route('principal') }}" rel="noopener noreferrer">Regresar</a>  </p>
                         </div>
                     </div>
                 </div>
@@ -59,9 +58,8 @@
                                 <tr>
                                     <th>id</th>
                                     <th>Email</th>
-                                    <th>Primer Nombre</th>
-                                    <th>Segundo Nombre</th>
-                                    <th>Avatar</th>
+                                    <th>Nombre</th>
+                                    <th>Creacion</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -69,32 +67,23 @@
                                     <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
                                     <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
                                     <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
-                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            @php
-                            $count=0;
-                            @endphp
+
                             @foreach ($data as $user)
-                            @break($count == 5)
                               <tr>
                                 <td class=" text-center">{{ $user['id']  }}</td>
                                 <td class="">{{ $user['email']  }}</td>
-                                <td class="">{{ $user['first_name']  }}</td>
-                                <td class="">{{ $user['last_name']  }}</td>
-                                <td class="align-content-center justify-content-center">
-                                    <img src="https://randomuser.me/api/portraits/men/81.jpg" alt="" class="img-thumbnail rounded-circle">
-                                </td>
+                                <td class="">{{ $user['name']  }}</td>
+                                <td class="">{{ $user['created_at']  }}</td>
                               </tr>
-                              @php
-                              $count++;
-                              @endphp
                               @endforeach
 
                             </tbody>
                         </table>
+                        {{ $data->onEachSide(3)->links() }}
                     </div>
 
 

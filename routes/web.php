@@ -18,7 +18,7 @@ use App\Providers\RouteServiceProvider;
 */
 
 Route::post('/autorizacion', [AutorizacionController::class, 'login'])->name('autorizacion');
-Route::post('/filtro', [PrincipalController::class, 'filtro'])->name('filtro');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,5 +28,5 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/principal', [PrincipalController::class, 'index'])->name('principal');
-
-Route::get('/paginado', [PrincipalController::class, 'index'])->name('paginado');
+Route::post('/principal/filtro', [PrincipalController::class, 'filtro'])->name('filtro');
+Route::get('/paginado', [PrincipalController::class, 'query'])->name('paginado');
