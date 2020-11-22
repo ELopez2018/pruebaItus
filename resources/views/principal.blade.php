@@ -19,7 +19,8 @@
                 </div>
             </div>
             <div class="container">
-                <form action="" method="POST">
+                <form action="{{ route('filtro') }}" method="POST">
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="input-group mb-3">
@@ -31,14 +32,14 @@
                         </div>
                         <div class="col-sm-2 text-center align-content-center justify-content-center align-items-center">
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
+                                <input class="form-check-input" type="radio" name="orden" id="desc" value="desc" checked>
+                                <label class="form-check-label" for="desc">
                                   Desc
                                 </label>
                               </div>
                               <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                <label class="form-check-label" for="exampleRadios2">
+                                <input class="form-check-input" type="radio" name="orden" id="asc" value="asc">
+                                <label class="form-check-label" for="asc">
                                   Asc
                                 </label>
                               </div>
@@ -72,7 +73,11 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                            @php
+                            $count=0;
+                            @endphp
                             @foreach ($data as $user)
+                            @break($count == 5)
                               <tr>
                                 <td class=" text-center">{{ $user['id']  }}</td>
                                 <td class="">{{ $user['email']  }}</td>
@@ -82,6 +87,9 @@
                                     <img src="https://randomuser.me/api/portraits/men/81.jpg" alt="" class="img-thumbnail rounded-circle">
                                 </td>
                               </tr>
+                              @php
+                              $count++;
+                              @endphp
                               @endforeach
 
                             </tbody>

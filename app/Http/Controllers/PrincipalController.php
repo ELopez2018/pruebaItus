@@ -26,4 +26,19 @@ class PrincipalController extends Controller
         //    die();
         return view('principal', compact('data'));
     }
+    public function filtro(Request $request)
+    {
+        $resp= Http::get('https://reqres.in/api/users?page=1');
+        $datos = $resp->json();
+        $data =  $datos['data'];
+        $orden= $request->input('orden');
+        $filtro= $request->input('buscar');
+        if($orden == 'asc') {
+            sort($data);
+        } else {
+            rsort($data);
+        }
+        return view('principal', compact('data'));
+    }
+
 }

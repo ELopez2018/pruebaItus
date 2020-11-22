@@ -40,4 +40,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function testDatabase()
+{
+    $users = User::factory()->count(20)->make();
+
+    // Use model in tests...
+}
 }
