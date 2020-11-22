@@ -9,17 +9,18 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Arr;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+
+// Clase Principal
 class PrincipalController extends Controller
 {
     public $filtro = '';
+    // Funcion para el Inicio
     public function index()
     {
-        $resp = Http::get('https://reqres.in/api/users?page=1');
-        $datos = $resp->json();
         $data = [];
-        // rsort($data);
         return view('principal', compact('data'));
     }
+    // Funcion para filtrar los datos de la consulta  a la API
     public function filtro(Request $request)
     {
         $resp = Http::get('https://reqres.in/api/users?page=1');
@@ -42,18 +43,53 @@ class PrincipalController extends Controller
         } else {
             rsort($data);
         }
-        // return  redirect()->route('principal', compact('data'));
         return view('principal', compact('data'));
     }
 
-    public function query()
+    // Funcion para ejecutar querys a la Tablas
+    public function query(Request $request)
     {
-        $data = DB::table('users')->paginate(5);
-        $data = User::where('email', '<>', null)->paginate(5);
-        // dd($data);
-        // die();
-        // return $data;
-        //return view('principal2', ['data' => $data]);
+        $consulta= $request->input();
+        if($consulta['buscar']=='' || is_null($consulta['buscar'])) {
+            if($consulta['orden']=='asc') {
+                $data = User::where('email', '<>', null)
+                ->orderBy('id', 'asc')
+                ->paginate(5);
+            } else {
+                $data = User::where('email', '<>', null)
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+            }
+        } else {
+            if($consulta['orden']=='asc') {
+                $data = User::where('email', 'like', '%' . $consulta['buscar'] . '%')
+                ->orderBy('id', 'asc')
+                ->paginate(5);
+            } else {
+                $data = User::where('email', 'like', '%' . $consulta['buscar'] . '%')
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+            }
+
+        }
         return view('principal2', compact('data'));
+    }
+
+    // Funcion para Resetar las querys
+    public function reset(Request $request) {
+        $data = User::where('email', '=', 'maito')
+        ->orderBy('id', 'asc')
+        ->paginate(5);
+        // dd($data );
+        // die();
+        return view('principal2', compact('data'));
+
+    }
+    // Funcion para buscar por columna
+    public function busqueda(Request $request) {
+        $data = $request->input();
+
+        return $data ;
+
     }
 }

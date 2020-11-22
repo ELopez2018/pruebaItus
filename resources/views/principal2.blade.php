@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="container">
-                <form action="{{ route('filtro') }}" method="POST">
+                <form action="{{ route('paginado') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-sm-8">
@@ -45,7 +45,8 @@
                               </div>
                         </div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn btn-info btn-block">Buscar</button>
+                            <button type="submit" class="btn btn-info inline">Buscar</button>
+                            <a href="{{ route('paginado.reset') }}"><button type="button"  class="btn btn-danger  inline" >Reset</button></a>
                         </div>
                     </div>
 
@@ -64,10 +65,12 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
-                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
-                                    <th><input class="form-control" type="text" placeholder="Filtrar.." /></th>
-                                    <th></th>
+
+                                    <th><input id="id" name="id" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
+                                    <th><input id="email" name="email" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
+                                    <th><input  id="nombre" name="name" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
+                                    <th><input id="creacion" name="created_at" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
+
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -80,10 +83,10 @@
                                 <td class="">{{ $user['created_at']  }}</td>
                               </tr>
                               @endforeach
-
                             </tbody>
+
                         </table>
-                        {{ $data->onEachSide(3)->links() }}
+                        {{ $data->links() }}
                     </div>
 
 
@@ -147,14 +150,13 @@
             #mydatatable tfoot {
                 display: table-header-group !important;
             }
-            </style>
-
-            <script type="text/javascript">
+        </style>
+        <script type="text/javascript">
             $(document).ready(function() {
-                $('#mydatatable tfoot th').each( function () {
-                    var title = $(this).text();
-                    $(this).html( '<input type="text" placeholder="Filtrar.." />' );
-                } );
+                // $('#mydatatable tfoot th').each( function () {
+                //     var title = $(this).text();
+                //     $(this).html( '<input type="text" placeholder="búsqueda/filtro.." />' );
+                // } );
 
                 var table = $('#mydatatable').DataTable({
                     "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
@@ -177,7 +179,9 @@
                         })
                     }
                 });
+
+                console.log(table);
             });
-            </script>
+        </script>
 </body>
 @extends('layout/footer');
