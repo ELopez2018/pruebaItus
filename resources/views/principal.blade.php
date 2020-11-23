@@ -14,7 +14,7 @@
                         </div>
                         <div class="card-footer">
                             <span>PRUEBA ITUS</span>
-                            <p> <a href="{{ route('paginado.reset') }}" rel="noopener noreferrer">PAGINADO DE REGISTROS</a>  </p>
+                            <p> <a href="{{ route('paginado.inicio') }}" rel="noopener noreferrer">PAGINADO DE REGISTROS</a>  </p>
                         </div>
                     </div>
                 </div>

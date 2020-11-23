@@ -21,12 +21,14 @@ Route::get('/login', function () {
 // Rutas del Api: Pagina Principal
 Route::get('/principal', [PrincipalController::class, 'index'])->name('principal');
 // Funcion para resetar la consulat
-Route::get('/paginado', [PrincipalController::class, 'reset'])->name('paginado.reset');
+Route::get('/paginado/reset', [PrincipalController::class, 'reset'])->name('paginado.reset');
 
 // Api Post para Filtrar la consulta de la api
 Route::post('/principal/filtro', [PrincipalController::class, 'filtro'])->name('filtro');
+
 // Paginas de los registros de la Tabla User -debe ejecutar migrate con la opcion --seed para generar Registros-
-Route::post('/paginado', [PrincipalController::class, 'query'])->name('paginado');
+Route::post('/paginado', [PrincipalController::class, 'query'])->name('paginado.query');
+
+Route::get('/paginado', [PrincipalController::class, 'inicio'])->name('paginado.inicio');
 // Ruta para buscar
 Route::post('/paginado/busqueda', [PrincipalController::class, 'busqueda'])->name('paginado.busqueda');
-// Route::get('/paginado/filtro', [PrincipalController::class, 'query'])->name('paginado.filtro');

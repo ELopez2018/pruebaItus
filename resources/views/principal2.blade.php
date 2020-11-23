@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="container">
-                <form action="{{ route('paginado') }}" method="POST">
+                <form action="{{ route('paginado.query') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-sm-8">
@@ -52,6 +52,7 @@
 
                 </form>
 
+
                 <div class="row">
                     <div class="table-responsive" id="mydatatable-container">
                         <table class="records_list table table-striped table-bordered table-hover" id="mydatatable">
@@ -65,16 +66,23 @@
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>
+                                        <input id="id" name="id" alias="alias" class="form-control" type="text" placeholder="búsqueda/filtro" />
+                                    </th>
+                                    <th>
+                                        <input id="email" name="email" class="form-control" type="text" placeholder="búsqueda/filtro" />
+                                    </th>
 
-                                    <th><input id="id" name="id" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
-                                    <th><input id="email" name="email" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
-                                    <th><input  id="nombre" name="name" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
-                                    <th><input id="creacion" name="created_at" class="form-control" type="text" placeholder="búsqueda/filtro" /></th>
+                                    <th>
+                                        <input  id="nombre" name="name" class="form-control" type="text" placeholder="búsqueda/filtro" />
+                                    </th>
 
+                                    <th>
+                                        <input id="creacion"  name="created_at" class="form-control" type="text" placeholder="búsqueda/filtro" />
+                                    </th>
                                 </tr>
                             </tfoot>
                             <tbody>
-
                             @foreach ($data as $user)
                               <tr>
                                 <td class=" text-center">{{ $user['id']  }}</td>
@@ -84,60 +92,9 @@
                               </tr>
                               @endforeach
                             </tbody>
-
                         </table>
-                        {{ $data->links() }}
                     </div>
-
-
-
-                    {{-- <div class="col-sm-12">
-                       <table class="table">
-                            <thead class="thead-dark">
-                              <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Primer Nombre</th>
-                                <th scope="col">Segundo Nombre</th>
-                                <th scope="col">
-                                   Avatar
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $user)
-                              <tr>
-                                <td>{{ $user['id']  }}</td>
-                                <td>{{ $user['email']  }}</td>
-                                <td>{{ $user['first_name']  }}</td>
-                                <td>{{ $user['last_name']  }}</td>
-                                <td>
-                                    <img src="https://randomuser.me/api/portraits/men/81.jpg" alt="" class="img-thumbnail rounded-circle">
-                                </td>
-                              </tr>
-                              @endforeach
-                            </tbody>
-                          </table>  --}}
-                          {{-- {{ $data->links() }} --}}
-                          {{-- <nav aria-label="...">
-                            <ul class="pagination justify-content-center">
-                              <li class="page-item ">
-                                <span class="page-link">Anterior</span>
-                              </li>
-                              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item ">
-                                <span class="page-link">
-                                  2
-                                  <span class="sr-only">(Actual)</span>
-                                </span>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">Siguiente</a>
-                              </li>
-                            </ul>
-                          </nav> --}}
-
+                    {{ $data->links() }}
                     </div>
                 </div>
             </div>
@@ -153,10 +110,10 @@
         </style>
         <script type="text/javascript">
             $(document).ready(function() {
-                // $('#mydatatable tfoot th').each( function () {
-                //     var title = $(this).text();
-                //     $(this).html( '<input type="text" placeholder="búsqueda/filtro.." />' );
-                // } );
+                $('#mydatatable tfoot th').each( function () {
+                    var title = $(this).text();
+                    $(this).html( '<input type="text" placeholder="búsqueda/filtro.." />' );
+                } );
 
                 var table = $('#mydatatable').DataTable({
                     "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',

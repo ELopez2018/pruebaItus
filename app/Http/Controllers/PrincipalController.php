@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\DB;
 // Clase Principal
 class PrincipalController extends Controller
 {
-    public $filtro = '';
-    // Funcion para el Inicio
     public function index()
     {
         $data = [];
@@ -76,20 +74,28 @@ class PrincipalController extends Controller
     }
 
     // Funcion para Resetar las querys
-    public function reset(Request $request) {
+    public function reset() {
         $data = User::where('email', '=', 'maito')
         ->orderBy('id', 'asc')
-        ->paginate(5);
-        // dd($data );
-        // die();
+        ->paginate(5);;
         return view('principal2', compact('data'));
 
     }
     // Funcion para buscar por columna
     public function busqueda(Request $request) {
         $data = $request->input();
-
-        return $data ;
+        $key = array_keys($data);
+        $data = User::where($key[0], 'like', '%' . $data[ $key[0] ] . '%')
+        ->orderBy('id', 'asc')
+        ->paginate(5);
+        return view('principal2', compact('data'));
 
     }
+    public function inicio() {
+        $data = User::where('email', '=', 'maito')
+        ->orderBy('id', 'asc')
+        ->paginate(5);
+        return view('principal2', compact('data'));
+    }
+
 }
